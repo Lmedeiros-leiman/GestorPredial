@@ -1,0 +1,21 @@
+RewriteEngine On
+
+# Allow direct access to any file in the Public folder
+RewriteCond %{REQUEST_URI} ^/Public/ [NC]
+RewriteRule ^ - [L]
+
+# Allow direct access to any file in the Protected folder
+RewriteCond %{REQUEST_URI} ^/Protected/ [NC]
+RewriteRule ^ - [L]
+
+# Check if requested file exists in Public folder and redirect if found
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/Public%{REQUEST_URI} -f [OR]
+RewriteCond %{DOCUMENT_ROOT}/Public%{REQUEST_URI} -d
+RewriteRule ^(.*)$ /Public/$1 [L]
+
+# Route everything else to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L,QSA]
