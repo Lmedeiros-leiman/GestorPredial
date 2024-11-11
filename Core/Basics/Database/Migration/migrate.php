@@ -2,6 +2,7 @@
 namespace Core\Basics\Database\Migration;
 
 use Core\Basics\Database\Database;
+use Core\Basics\Database\SchemaBuilder;
 
 abstract class Migration {
     protected $db;
