@@ -9,6 +9,11 @@ class HomeController extends Controller {
         $data = [];
         return $this->render('index', $data);
     }
+
+    public function notFound() {
+        $data = [];
+        return $this->render('404', $data);
+    }
 }
 
 ?>
