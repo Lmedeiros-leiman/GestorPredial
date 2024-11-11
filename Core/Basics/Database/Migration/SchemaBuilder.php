@@ -25,6 +25,14 @@ class SchemaBuilder {
         $this->columns[] = "`$name` TEXT NOT NULL";
         return $this;
     }
+    public function integer($name) {
+        $this->columns[] = "`$name` INT NOT NULL";
+        return $this;
+    }
+    public function boolean($name, $default = false) {
+        $this->columns[] = "`$name` BOOLEAN NOT NULL DEFAULT $default";
+        return $this;
+    }
     
     public function timestamps() {
         $this->columns[] = "`created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP";
