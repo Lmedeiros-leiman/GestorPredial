@@ -6,13 +6,6 @@
     <title></title>
 </head>
 <body>
-    
+    This is the default view index file!
 </body>
 </html>
-
-
-<?php 
-
-echo("This is the default view index file!")
-
-?>
