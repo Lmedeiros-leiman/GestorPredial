@@ -1,5 +1,5 @@
 <?php
-namespace Core\Basics\Database;
+namespace Core\Basics\Database\Migration;
 
 class SchemaBuilder {
     private $tableName;
