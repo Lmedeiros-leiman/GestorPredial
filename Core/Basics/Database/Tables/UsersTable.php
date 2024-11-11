@@ -3,15 +3,15 @@
 namespace Core\Basics\Database\Tables;
 
 use Core\Basics\Database\Migration\Migration;
+use Core\Basics\Database\Migration\SchemaBuilder;
 
 class UsersTable extends Migration {
     public function up() {
-        $this->createTable("users", function($table) {
+        $this->createTable("users", function(SchemaBuilder $table) {
             $table->id()
                 ->string("email")
-                ->foreignId("secret_id")
-                ->foreignKey("secret_id", "secrets")
-                ->nullable()
+                ->foreignId("password")->foreignKey("password", "secrets")->nullable()
+                ->boolean("confirmed_email", false)
                 ->timestamps()
             ;
         });
