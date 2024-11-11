@@ -32,6 +32,22 @@ class SchemaBuilder {
         return $this;
     }
     
+    public function foreignId($name) {
+        $this->columns[] = "`$name` INT NOT NULL";
+        return $this;
+    }
+    
+    public function foreignKey($column, $referenceTable, $referenceColumn = 'id') {
+        $this->columns[] = "FOREIGN KEY (`$column`) REFERENCES `$referenceTable`(`$referenceColumn`) ON DELETE CASCADE";
+        return $this;
+    }
+    
+    public function nullable() {
+        $lastIndex = count($this->columns) - 1;
+        $this->columns[$lastIndex] = str_replace('NOT NULL', 'NULL', $this->columns[$lastIndex]);
+        return $this;
+    }
+    
     public function build() {
         $sql = "CREATE TABLE IF NOT EXISTS `{$this->tableName}` (\n";
         $sql .= implode(",\n", $this->columns);
