@@ -16,7 +16,7 @@ O aplicativo utiliza MySQL como sistema de banco de dados. Para configurar:
 3. Execute o script de migração:
 
 ```bash
-php ./Core/Basics/Database/Migration/Migrator.php
+php ./Core/Basics/Database/Migration/migrate.php
 ```
 
 Este comando irá automaticamente:
