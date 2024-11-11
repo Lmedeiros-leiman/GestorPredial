@@ -1,4 +1,7 @@
 <?php
+
+use Core\Basics\Router\Router;
+
 spl_autoload_register(function ($class) {
     // Convert namespace separators to directory separators
     
@@ -15,6 +18,8 @@ spl_autoload_register(function ($class) {
     }
 });
 
-require "./Configurables/Routes.php"
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'Configurables' . DIRECTORY_SEPARATOR . 'Configurables.php';
 
+$router = new Router();
+$router->parseRequest($_SERVER['REQUEST_URI']);
 ?>
