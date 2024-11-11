@@ -13,8 +13,7 @@ class ContactsTable extends Migration {
                 ->string("value")
                 ->boolean("confirmed",false)
                 ->foreignId("people_id")->foreignKey("people_id", "people")->nullable()
-                ->timestamps()
-            ;
+                ->timestamps();
         });
     }
 
