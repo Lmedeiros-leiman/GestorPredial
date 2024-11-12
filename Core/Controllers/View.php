@@ -1,8 +1,12 @@
 <?php
 
-namespace Core\Basics\BaseClasses;
+namespace Core\Controllers;
 class View {
-    private $viewPath =   __DIR__ . DIRECTORY_SEPARATOR . '..'.DIRECTORY_SEPARATOR.'..' . DIRECTORY_SEPARATOR . 'Views'. DIRECTORY_SEPARATOR;
+    private $viewPath;
+    
+    public function __construct() {
+        $this->viewPath = str_replace('/', DIRECTORY_SEPARATOR, ROOT_DIR . 'Core/Views/');
+    }
     
     public function render($template, $data = []) {
         // Extract data to make variables available in view

@@ -1,12 +1,19 @@
 <?php 
 
-namespace Core\Basics\BaseClasses;
+namespace Core\Controllers;
+
+use CRUD;
 
 class Controller {
     protected $view;
+    protected $data = [];
     
     public function __construct() {
-        $this->view = new \Core\Basics\BaseClasses\View();
+        $this->view = new View();
+
+        $this->data = [
+            'title' => 'Gestor predial',
+        ];
     }
     
     protected function render($template, $data = []) {
