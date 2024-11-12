@@ -1,11 +1,24 @@
 <?php
-
 use Core\Basics\Router\Router;
 
-require_once str_replace("/", DIRECTORY_SEPARATOR ,__DIR__ . "/Core/Basics/Autoloader.php");
+function ViewRoute($file) {
+    $baseDir = ROOT_DIR . "Core/Views/";
+    return $baseDir . $file;
+}
 
-require_once str_replace("/",DIRECTORY_SEPARATOR, __DIR__ ."/Configurables/Configurables.php");
+// declare some constant values.
+define("ROOT_DIR",__DIR__ . DIRECTORY_SEPARATOR);
 
-$router = new Router();
-$router->parseRequest($_SERVER['REQUEST_URI']);
+// calls autoLoader file
+require_once str_replace('/', DIRECTORY_SEPARATOR, ROOT_DIR."Core/Basics/Autoloader.php");
+
+// calls the config file
+require_once str_replace('/', DIRECTORY_SEPARATOR, ROOT_DIR."Configurables/Configurables.php");
+
+try {
+    $router = new Router();
+    $router->parseRequest($_SERVER['REQUEST_URI']);
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
 ?>
