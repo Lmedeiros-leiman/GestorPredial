@@ -13,6 +13,7 @@ require_once str_replace('/', DIRECTORY_SEPARATOR, ROOT_DIR."Configurables/Confi
 
 try {
     $router = new Router();
+    session_start();
     $router->parseRequest($_SERVER['REQUEST_URI']);
 } catch (Exception $e) {
     echo $e->getMessage();
