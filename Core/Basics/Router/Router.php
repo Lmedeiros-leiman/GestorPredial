@@ -40,7 +40,8 @@ class Router {
         }
 
         // If no route matched, load a public file or 404 page
-        $fileURL = str_replace("/", DIRECTORY_SEPARATOR, "/public".$url);
+        $fileURL = str_replace("/", DIRECTORY_SEPARATOR, "./public".$url);
+
         if (file_exists($fileURL)) {
             echo file_get_contents($fileURL);
         } else {
