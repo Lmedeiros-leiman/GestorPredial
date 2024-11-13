@@ -12,11 +12,13 @@ class Router {
         $this->routes = [
             'GET' => [
                 '/' => ['HomeController', 'index'],
+                '/login' => ['LoginController', 'index'],
+                '/register' => ['RegisterController', 'index'],
                 '/user/{id}' => ['UserController', 'show'] // Example route with a variable
             ],
             'POST' => [
                 '/login' => ['LoginController', 'login'],
-                '/register' => ['RegisterController', 'createAccount']
+                '/register' => ['RegisterController', 'register']
             ],
             'DELETE' => [],
             'PUT' => [],
@@ -33,13 +35,18 @@ class Router {
                 header("Location: /login");
         } }
 
-
+        
         if (isset($this->routes[$method][$url])) {
             $action = $this->routes[$method][$url];
             $controller = "Core\\Controllers\\" . $action[0];
+            
             $method = $action[1];
+            
             $controllerInstance = new $controller();
+            
             $controllerInstance->$method();
+            
+            
             return;
         } 
 
