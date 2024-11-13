@@ -10,13 +10,14 @@ class View {
     
     public function render($template, $data = []) {
         // Extract data to make variables available in view
+        
+        
         extract($data);
         
         // Start output buffering
-        ob_start();
+        
         
         $templatePath = $this->viewPath . $template . '.php';
-
         if (file_exists($templatePath)) {
             require $templatePath;
         } else {
@@ -24,7 +25,7 @@ class View {
         }
         
         // Return the buffered content
-        return ob_get_clean();
+        return;
     }
 }
 
