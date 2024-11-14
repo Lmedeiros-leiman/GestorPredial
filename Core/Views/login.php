@@ -4,6 +4,14 @@
 <body>
    <div class="container mt-5">
       <h2>Login</h2>
+      <?php if (isset($_SESSION['message'])): ?>
+         <div class="alert alert-<?php echo explode('#',$_SESSION['message'])[0];?>">
+            <?php echo explode('#',$_SESSION['message'])[1];  ?>
+
+
+            <?php unset($_SESSION['message']); ?>
+         </div>
+      <?php endif; ?>
       <form action="/login" method="POST">
          <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
