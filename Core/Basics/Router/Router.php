@@ -14,15 +14,24 @@ class Router {
                 '/' => ['HomeController', 'index'],
                 '/login' => ['LoginController', 'index'],
                 '/register' => ['RegisterController', 'index'],
-                '/user/{id}' => ['UserController', 'show'] // Example route with a variable
+                '/user/{id}' => ['UserController', 'show'],
+                '/people' => ['PeopleController', 'index'],
+                '/people/{id}' => ['PeopleController', 'show'],
             ],
             'POST' => [
                 '/login' => ['LoginController', 'login'],
-                '/register' => ['RegisterController', 'register']
+                '/register' => ['RegisterController', 'register'],
+                '/people' => ['PeopleController', 'create'],
             ],
-            'DELETE' => [],
+            'DELETE' => [
+                '/user/{id}' => ['UserController', 'delete'],
+                '/user/{id}' => ['PeopleController', 'delete'],
+            ],
             'PUT' => [],
-            'PATCH' => []
+            'PATCH' => [
+                '/user/{id}' => ['UserController', 'update'],
+                '/people/{id}' => ['PeopleController', 'update'],
+            ]
         ];
     }
 
