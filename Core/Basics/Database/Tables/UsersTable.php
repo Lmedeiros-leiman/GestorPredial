@@ -12,6 +12,7 @@ class UsersTable extends Migration {
                 ->string("email")
                 ->foreignId("password")->foreignKey("password", "secrets")->nullable()
                 ->boolean("confirmed_email", false)
+                ->foreignId("person_ID")->foreignKey("person_ID", "people")->nullable()
                 ->timestamps()
             ;
         });
