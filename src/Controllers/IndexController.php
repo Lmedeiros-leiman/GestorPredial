@@ -2,13 +2,12 @@
 
 namespace Controllers;
 
+use Views\Bases\View;
 
 class IndexController {
 
-    public static function index($test = "") {
-
-        echo("Yooo this is working! \n");
-        echo($test);
+    public static function index() {
+        View::renderPage("Home");
     }
     
 }

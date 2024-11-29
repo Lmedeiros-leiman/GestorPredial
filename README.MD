@@ -45,3 +45,10 @@ Caso tenha o XAMPP instalado porem não tenha o PHP instalado, basta apenas adic
 
 
 
+## Lista de a fazeres:
+
+- Finalizar sistema de autorização
+- Finalizar página inicial
+- Fazer o controlador E os formulário para adicionar moradores.
+
+- ADICIONAR O BANCO DE DADOS!!

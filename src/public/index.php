@@ -1,5 +1,6 @@
 <?php
 
+use Controllers\AuthController;
 use Controllers\IndexController;
 use Router\Router;
 
@@ -19,7 +20,7 @@ $router->POST("/login", [AuthController::class, "loginRequest"]);
 $router->GET("/register", [AuthController::class, "register"]);
 $router->POST("/register", [AuthController::class, "HandleRegister"]);
 // lida com as rotas protegidas (requerem login.)
-$router->GET("user", [AuthController::class, "UserConfig"]);
+$router->GET("user", [UserController::class, "UserConfig"]);
 
 
 //
