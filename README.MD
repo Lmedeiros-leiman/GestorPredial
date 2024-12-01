@@ -34,15 +34,11 @@ docker compose down -v
 
 Basta apenas pegar o projeto e copiar e colar TODOS os arquivos para a página htdocs do xampp.
 
-porem será necessário configurar o banco de dados manualmente. basta apenas executar em algum terminal:
 
-```bash
-php ./src/Database/migrador.php
-```
+## Sobre a aplicação.
 
-essa script irá construir nosso banco de dados MySql.
-Caso tenha o XAMPP instalado porem não tenha o PHP instalado, basta apenas adicionar a pasta com o executavel do php para as variáveis de ambientes do computador. para ser mais exato: PATH.
-
+- localhost:8000 = PhpMyAdmin
+- localhost:80 = Aplicação.
 
 
 ## Lista de a fazeres:
@@ -50,5 +46,3 @@ Caso tenha o XAMPP instalado porem não tenha o PHP instalado, basta apenas adic
 - Finalizar sistema de autorização
 - Finalizar página inicial
 - Fazer o controlador E os formulário para adicionar moradores.
-
-- ADICIONAR O BANCO DE DADOS!!
