@@ -14,7 +14,7 @@
 </head>
 
 <body class="container-fluid">
-    <?php require VIEW_DIR ."/components/navbar.php" ?>
+    <?php require VIEW_DIR ."/components/HomeNavbar.php" ?>
     <section class="py-5">
         <div class="container">
             <div class="row align-items-center">

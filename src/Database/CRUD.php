@@ -2,6 +2,8 @@
 
 namespace Database;
 
+use Database\bases\Database;
+
 // Uma classe que abstrai o banco de dados.
 // Passar a tabela que esta se referindo junto.
 
@@ -12,7 +14,7 @@ class CRUD {
         $placeholders = ":" . implode(", :", array_keys( $data ));
         
         $query = "INSERT INTO $table ($colunms) VALUES ($placeholders)";
-        Database::query($query, $data);
+        return Database::query($query, $data);
     }
     public function read($table) {
         $query = "SELECT * FROM $table";

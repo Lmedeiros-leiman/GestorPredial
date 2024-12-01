@@ -21,12 +21,12 @@ class Router {
 
         $selectedRoute = $this->routes[$method][$uri[0]] ?? null;
         if (isset($selectedRoute)) {
-            call_user_func($selectedRoute);
+            call_user_func([new $selectedRoute[0], $selectedRoute[1]]);
             return;
         }
 
 
-        call_user_func([new NotFoundController(), "index"]);
+        call_user_func([new IndexController(), "index"]);
         exit();
     }
 
