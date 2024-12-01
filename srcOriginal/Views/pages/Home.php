@@ -14,7 +14,26 @@
 </head>
 
 <body class="container-fluid">
-    <?php require VIEW_DIR ."/components/navbar.php" ?>
+    <nav class="navbar navbar-expand-lg ">
+        <div class="container-fluid">
+            <!-- Brand -->
+            <a class="navbar-brand" href="#">Gestor Predial</a>
+
+            <!-- Toggler for mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar content -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">Dashboard</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <section class="py-5">
         <div class="container">
             <div class="row align-items-center">
