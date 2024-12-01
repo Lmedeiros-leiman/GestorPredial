@@ -2,11 +2,14 @@
 
 use Controllers\AuthController;
 use Controllers\IndexController;
+use Database\bases\Database;
 use Router\Router;
 
 // carrega o autoloader e algumas constantes importates.
 require_once "../autoloader.php";
 
+// verifica se o banco de dados esta funcionando
+Database::CheckDatabase();
 
 // declara as rotas que nossa aplicação vai usar.
 $router = new Router();
