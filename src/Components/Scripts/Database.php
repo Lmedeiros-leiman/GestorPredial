@@ -46,6 +46,15 @@ class Database
         }
 
         $statement->execute();
+
+        // Check if this is an INSERT query
+        if (stripos($query, 'INSERT') === 0) {
+            $id = $connection->insert_id;
+            $statement->close();
+            return $id;
+        }
+
+
         $result = $statement->get_result();
         $data = null;
         if ($result) {
@@ -82,9 +91,12 @@ class Database
         $query = "CREATE TABLE IF NOT EXISTS pessoas (
             id INT AUTO_INCREMENT PRIMARY KEY,
             nome VARCHAR(255) NOT NULL,
-            cpf VARCHAR(20) NOT NULL,
+            email VARCHAR(255) NOT NULL,
             telefone VARCHAR(255) NULL,
-            unidade VARCHAR(255) NOT NULL,
+            numero VARCHAR(255) NOT NULL,
+            bloco VARCHAR(255) NOT NULL,
+            sexo VARCHAR(255) NOT NULL,
+            dataNascimento DATE NOT NULL,
             dataCriacao DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
             dataAlteracao DATETIME NULL DEFAULT CURRENT_TIMESTAMP
         )";

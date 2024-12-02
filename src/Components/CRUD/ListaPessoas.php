@@ -1,24 +1,64 @@
-<?php 
+<?php
 if (!empty($_POST)) {
-    //header('Content-Type: application/json; charset=utf-8');
+    header('Content-Type: application/json; charset=utf-8');
     require_once "../Scripts/Database.php";
 
-    
+    function prepareQuery($data)
+    {
+        $colunms = implode(",", array_keys($data));
+        $placeholders = ":" . implode(", :", array_keys($data));
 
-    switch($_POST["type"]) {
+        return ["colunms" => $colunms, "placeholders" => $placeholders];
+    }
+
+    switch ($_POST["type"]) {
         case "get":
             $dados = Database::query("Select * from pessoas");
             echo json_encode($dados);
 
             break;
         case "post":
+            $props = prepareQuery($_POST["data"]);
 
+            // Constroi a querry para colocar no bd.
+            $query = "INSERT INTO pessoas (";
+            $query .= implode(",", array_keys($_POST["data"]));
+            $query .= ") VALUES (";
+            $query .= str_repeat("?,", count($_POST["data"]) - 1) . "?";
+            $query .= ")";
+
+            // Execute insert and get the new ID
+            $values = array_values($_POST["data"]);
+
+            $lastId = Database::query($query, $values);
+
+            $newRecord = Database::query("SELECT * FROM pessoas WHERE id = ?", [$lastId]);
+            echo json_encode($newRecord);
             break;
         case "patch":
+            $props = prepareQuery($_POST["data"]);
+            $id = $_POST["data"]["id"];
+
+            // Constroi a querry para colocar no bd.
+            $query = "UPDATE pessoas SET ";
+            $query .= implode(" = ?, ", array_keys($_POST["data"])) . " = ?";
+            $query .= " WHERE id = ?";
+
+            // Execute insert and get the new ID
+            $values = array_values($_POST["data"]);
+            $values[] = $id;
+
+            Database::query($query, $values);
+
+            $newRecord = Database::query("SELECT * FROM pessoas WHERE id = ?", [$id]);
+            echo json_encode($newRecord);
 
             break;
         case "delete":
-
+            $id = $_POST["id"];
+            $query = "DELETE FROM pessoas WHERE id = ?";
+            Database::query($query, [$id]);
+            echo json_encode(["success" => true]);
             break;
     }
 
@@ -34,14 +74,15 @@ if (!empty($_POST)) {
 
 
 <!-- Gestor de pessoas -->
-<section>
-    <table class="" id="tabelaPessoas">
-        <thead>
+<section class="container mt-5">
+    <table class="table table-hover  table-striped" id="tabelaPessoas">
+        <thead class="table-primary">
             <tr>
                 <th>Id</th>
                 <th>Nome</th>
                 <th>Idade</th>
                 <th>Numero</th>
+                <th>Bloco</th>
                 <th>Email</th>
                 <th>Telefone</th>
                 <th>Sexo</th>
@@ -49,7 +90,12 @@ if (!empty($_POST)) {
             </tr>
         </thead>
         <tbody id="dadosTabelaPessoas">
-
+            <tr>
+                <td colspan="8" class="text-center py-5">
+                    <img src="/assets/loading.gif" alt="Carregando..." class="loading-img">
+                    <p class="mt-3 text-muted">Carregando dados, por favor aguarde...</p>
+                </td>
+            </tr>
         </tbody>
     </table>
 </section>
@@ -121,19 +167,87 @@ if (!empty($_POST)) {
 
     }
 
+    const AdicionarPessoa = (dados) => {
+        $.ajax({
+            type: "POST",
+            url: "/Components/CRUD/ListaPessoas.php",
+            data: {
+                "type": "post",
+                "data": dados
+            },
+            success: (response) => {
+                if (response) {
+                    console.log(response);
+                }
+            }
+        });
+    }
+    const AlterarPessoa = (dados) => {
+        $.ajax({
+            type: "POST",
+            url: "/Components/CRUD/ListaPessoas.php",
+            data: {
+                "type": "patch",
+                "data": dados,
+            },
+            success: (response) => {
+                if (response) {
+                    console.log(response);
+                }
+            }
+        });
+    }
+    const DeletarPessoa = (id) => {
+        $.ajax({
+            type: "POST",
+            url: "/Components/CRUD/ListaPessoas.php",
+            data: {
+                "type": "delete",
+                "id": id,
+            },
+            success: (response) => {
+                if (response) {
+                    console.log(response);
+                }
+            }
+        });
+    }
+
+    /*{
+        "id": "1",
+        "nome": "Caroline",
+        "dataNascimento": new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 30 * 12 * 20)).toISOString().split('T')[0],
+        "numero": "123456789",
+        "bloco": "C",
+        "sexo": "Masculino",
+        "email": "joao@gmail.com",
+        "telefone": "123456789",
+    }*/
     document.addEventListener("DOMContentLoaded", () => {
         BuscarDadosPessoas();
     })
 
     const MontarTabelaPessoas = (dados) => {
-        console.log(dados)
-        $("#dadosTabelaPessoas").html(
-            "yo waddup"
-        )
+        $("#dadosTabelaPessoas").html("");
 
-
-
-        
+        dados.forEach(pessoa => {
+            $("#dadosTabelaPessoas").append(`
+                <tr>
+                    <td>${pessoa.id}</td>
+                    <td>${pessoa.nome}</td>
+                    <td>${pessoa.dataNascimento}</td>
+                    <td>${pessoa.numero}</td>
+                    <td>${pessoa.bloco}</td>
+                    <td>${pessoa.sexo}</td>
+                    <td>${pessoa.email}</td>
+                    <td>${pessoa.telefone}</td>
+                    <td>
+                        <button class="btn btn-primary" onclick="EditarPessoa(${pessoa.id})">Editar</button>
+                        <button class="btn btn-danger" onclick="ExcluirPessoa(${pessoa.id})">Excluir</button>
+                    </td>
+                </tr>
+            `);
+        });
     }
 </script>
 </body>
