@@ -1,8 +1,5 @@
 <?php
 
-use mysqli;
-use PDO;
-
 class Database
 {
     public static function query($query, $values = [])
@@ -82,7 +79,7 @@ class Database
         self::query("CREATE DATABASE IF NOT EXISTS GestorPredial");
 
         // cria a tabela de pessoas caso ela não exista.
-        $query = "CREATE TABLE pessoas (
+        $query = "CREATE TABLE IF NOT EXISTS pessoas (
             id INT AUTO_INCREMENT PRIMARY KEY,
             nome VARCHAR(255) NOT NULL,
             cpf VARCHAR(20) NOT NULL,

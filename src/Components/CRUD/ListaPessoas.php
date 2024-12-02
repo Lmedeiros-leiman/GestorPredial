@@ -1,19 +1,21 @@
 <?php 
 if (!empty($_POST)) {
-    header('Content-Type: application/json; charset=utf-8');
+    //header('Content-Type: application/json; charset=utf-8');
     require_once "../Scripts/Database.php";
 
+    
 
     switch($_POST["type"]) {
         case "get":
             $dados = Database::query("Select * from pessoas");
             echo json_encode($dados);
+
             break;
         case "post":
 
             break;
-
         case "patch":
+
             break;
         case "delete":
 
@@ -21,7 +23,7 @@ if (!empty($_POST)) {
     }
 
 
-
+    return;
     exit();
 }
 
