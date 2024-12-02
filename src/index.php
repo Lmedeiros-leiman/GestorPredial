@@ -10,7 +10,7 @@
 </head>
 
 <body class="container-fluid">
-    <<nav class="navbar navbar-expand-lg ">
+    <nav class="navbar navbar-expand-lg ">
         <div class="container-fluid">
             <!-- Brand -->
             <a class="navbar-brand" href="#">Gestor Predial</a>
