@@ -317,7 +317,6 @@ if (!empty($_POST)) {
 
         $("#modalTitleId").text("Adicionando nova pessoa");
 
-
         $("#cadastroForm")
             .removeAttr('onsubmit')
             .submit(function(event) {
@@ -337,7 +336,7 @@ if (!empty($_POST)) {
                     },
                     success: (response) => {
                         const pessoa = response[0];
-
+                        // adiciona o novo elemento.
                         const newRow = $('<tr></tr>');
 
                         newRow.append(`
@@ -357,8 +356,6 @@ if (!empty($_POST)) {
                             </td>
                         `);
 
-
-
                         $("#dadosTabelaPessoas").append(newRow);
 
                         newRow.addClass('highlight');
@@ -367,6 +364,8 @@ if (!empty($_POST)) {
                             newRow.removeClass('highlight');
                         }, 2000)
 
+                        // esconde o modal
+                        $("#ModalEdicaoDados").modal("hide");
 
                     }
                 });
@@ -472,7 +471,7 @@ if (!empty($_POST)) {
         .submit(function(event) {
             // adiciona a função de busca para o formulário de busca.
             event.preventDefault();
-            BuscarDadosPessoas($("#searchPersonForm input")[0].value + "%");
+            BuscarDadosPessoas("%"+ $("#searchPersonForm input")[0].value +"%");
         })
         
 
