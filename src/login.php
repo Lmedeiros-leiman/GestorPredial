@@ -109,6 +109,10 @@ if (!empty($_POST) and isset($_POST["action"])) {
 </body>
 
 <script>
+    // quando a página estiver totalmente carregada, o código aqui dentro é executado.
+    // isso garante que o navegador já tenha carregado o HTML e o CSS.
+    // o código abaixo é responsável por interceptar o evento de submit do formulário e enviar os dados para o backend.
+    // alem de lidar com a resposta do backend e exibir uma mensagem para o usuário.
     document.addEventListener("DOMContentLoaded", function() {
         $("#loginForm")
             .removeAttr('submit')

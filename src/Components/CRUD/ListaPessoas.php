@@ -259,6 +259,8 @@ if (!empty($_POST)) {
 
 <script>
     const BuscarDadosPessoas = (filter = "") => {
+        // Essa função busca os dados das pessoas conforme o filtro colocado no input de busca
+        // por padrão busca TODOS os dados.
         $.ajax({
             type: "POST",
             url: "/Components/CRUD/ListaPessoas.php",
@@ -276,13 +278,13 @@ if (!empty($_POST)) {
         });
 
     }    
-    const ReiniciarDadosPessoas = () => {
-
-    }
     const DeletarPessoa = (row) => {
-        //const row = actionCaller.parentElement
+        // essa função é chamada para deletar uma coluna e os dados dela.
+        // por padrão recebe a coluna em si.
         const id = row.childNodes[1].innerText;
 
+
+        // pequeno modal de confirmação, cancelando a operação caso o usuário não confirme.
         const decision = confirm("Tem certeza que deseja deletar a pessoa de id: " + id + "?");
         if (!decision) {
             return;
@@ -306,6 +308,15 @@ if (!empty($_POST)) {
     //
     //
     const MontarCadastrador = () => {
+        // Essa função faz multiplas coisas ao mesmo tempo.
+        // 1 - Abre o modal de cadastro.
+        // 2 - Limpa os campos do formulário.
+        // 3 - Adiciona um evento de submit no formulário.
+        // 4 - Envia os dados do formulário para o servidor.
+        // 5 - Atualiza a tabela com os novos dados.
+        // 6 - Fecha o modal de cadastro.
+        //
+
         // Limpa os formulários.
         let rowData = {
             "id": "",
@@ -378,13 +389,16 @@ if (!empty($_POST)) {
             })
     }
     const MontarEditor = (row) => {
+        // Essa função faz as mesmas ações que o MontaCadastrador.
+        // POREM recebe uma linha com dados para preencher o formulário.
+        // e ao invés de criar uma nova pessoa, edita a entrada já existente no banco.
         const rowData = {
             "id": row.childNodes[1].innerText,
             "nome": row.childNodes[3].innerText,
             "numero": row.childNodes[5].innerText,
             "bloco": row.childNodes[7].innerText,
             "sexo": row.childNodes[9].innerText,
-            "dataNascimento": row.childNodes[11].innerText, //new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 30 * 12 * 20)).toISOString().split('T')[0],
+            "dataNascimento": row.childNodes[11].innerText,
             "email": row.childNodes[13].innerText,
             "telefone": row.childNodes[15].innerText,
 
@@ -423,7 +437,7 @@ if (!empty($_POST)) {
                             row.childNodes[5].innerText = updatedData["numero"];
                             row.childNodes[7].innerText = updatedData["bloco"]
                             row.childNodes[9].innerText = updatedData["sexo"];
-                            row.childNodes[11].innerText = updatedData["dataNascimento"] //new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 30 * 12 * 20)).toISOString().split('T')[0],
+                            row.childNodes[11].innerText = updatedData["dataNascimento"]
                             row.childNodes[13].innerText = updatedData["email"];
                             row.childNodes[15].innerText = updatedData["telefone"];
 
@@ -437,17 +451,16 @@ if (!empty($_POST)) {
                             setTimeout(() => {
                                 $row.removeClass('highlight');
                             }, 2000)
-
-
                         }
                     }
                 });
-
             })
     }
     //
     //
     const MontarTabelaPessoas = (dados) => {
+        // Essa função pega a lista de dados do backend e transforma em linhas visiveis na tabela.
+        //
         $("#dadosTabelaPessoas").html("");
 
         dados.forEach(pessoa => {
@@ -471,7 +484,9 @@ if (!empty($_POST)) {
             `);
         });
     }
-
+    //
+    // Estes comandos apenas executam quando a página carregar.
+    // Busca as pessoas salvas no banco de dados.
     document.addEventListener("DOMContentLoaded", () => {
         $("#searchPersonForm")
         .submit(function(event) {
