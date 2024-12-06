@@ -1,39 +1,49 @@
 <?php
 
-if (!empty($_POST)) {
+if (!empty($_POST) and isset($_POST["action"])) {
     header('Content-Type: application/json; charset=utf-8');
     require_once "./Components/Scripts/Database.php";
     session_start();
     //
-    $querry = "SELECT * FROM administrador WHERE (nome=? AND senha=?)";
 
-    $request = [
-        "user" => $_POST["usuario"],
-        "password" => $_POST["password"]
-    ];
-
-    $data = Database::query($querry,$_POST);
+    switch ($_POST["action"]) {
+        case "login":
+            $formData = [
+                "nome" => $_POST["nome"],
+                "senha" => $_POST["senha"]
+            ];
+            $querry = "SELECT * FROM administrador WHERE (nome=? AND senha=?)";
+            $data = Database::query($querry,$formData);
     
-    $result = [
-        "status" => "danger",
-        "message" => "Usuário ou senha inválidos."
-    ];
+            $result = [
+                "status" => "danger",
+                "message" => "Usuário ou senha inválidos."
+            ];
 
-    if (count($data) > 0) {
-        $data = $data[0];
-        $_SESSION["user"] = $data["id"];
-        
-        $result = [
-            "status" => "success",
-            "message" => "Login efetuado com sucesso",
-            "redirect" => "./dashboard.php"
-        ];
+            if (count($data) > 0) {
+                $data = $data[0];
+                $_SESSION["user"] = $data["id"];
+                
+                $result = [
+                    "status" => "success",
+                    "message" => "Login efetuado com sucesso",
+                    "redirect" => "./dashboard.php"
+                ];
+            }
+
+            echo json_encode($result);
+            break;
+        case "logout":
+            unset($_SESSION["user"]);
+            session_destroy();
+            echo json_encode(["status" => "sucess"]);
+            break;
+        default:
+            break;
     }
 
-    echo json_encode($result);
     exit();
 }
-
 
 ?>
 
@@ -105,12 +115,16 @@ if (!empty($_POST)) {
             .submit(function(event) {
                 event.preventDefault();
 
-                var formData = $(this).serialize();
+                var formData = $(this).serializeArray();
 
                 $.ajax({
                     type: "POST",
                     url: "/login.php",
-                    data: formData,
+                    data: {
+                        "nome": formData[0].value,
+                        "senha": formData[1].value,
+                        "action": "login",
+                    },
                     success: function(response) {
                         console.log(response)
                         $("#alert").addClass("alert-" + response.status)
