@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Gestor predial</title>
 
     <?php include_once "./Components/libs.php" ?>
 </head>
@@ -13,7 +13,7 @@
     <nav class="navbar navbar-expand-lg ">
         <div class="container-fluid">
             <!-- Brand -->
-            <a class="navbar-brand" href="#">Gestor Predial</a>
+            <a class="navbar-brand" href="./">Gestor Predial</a>
 
             <!-- Toggler for mobile -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

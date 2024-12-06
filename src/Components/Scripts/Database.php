@@ -101,6 +101,24 @@ class Database
             dataAlteracao DATETIME NULL DEFAULT CURRENT_TIMESTAMP
         )";
         self::query($query);
+
+        // cria a tabela de administrador caso não exista.
+        // tambem coloca uma conta de admin caso a tabela esteja vazia.
+        $query = "CREATE TABLE IF NOT EXISTS administrador (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            nome VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL,
+            senha VARCHAR(255) NOT NULL,
+            dataCriacao DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+            dataAlteracao DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)";
+        self::query($query);
+        
+        $query = "
+        INSERT INTO administrador (nome, email, senha)
+        SELECT 'admin', 'admin@admin.com', 'admin'
+        FROM DUAL
+        WHERE NOT EXISTS (SELECT * FROM administrador WHERE email = 'admin@admin.com')";
+        self::query($query);
     }
 }
 Database::CheckDatabase();
