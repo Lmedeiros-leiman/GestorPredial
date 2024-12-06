@@ -3,7 +3,25 @@
 class Database
 {
     public static function query($query, $values = [])
-    {
+    {   
+        // Essa função interage diretamente com o banco de dados para executar consultas SQL.
+        // Ela aceita uma query SQL e um array opcional de valores para substituir os placeholders na query.
+        //
+        // Parâmetros:
+        // - $query: string contendo a consulta SQL a ser executada
+        // - $values: array opcional com os valores para substituir os placeholders (?) na query
+        //
+        // Retornos:
+        // - Para queries INSERT: retorna o ID do último registro inserido
+        // - Para queries SELECT: retorna um array associativo com os resultados
+        // - Para outras queries (UPDATE/DELETE): retorna null
+        //
+        // A função trata automaticamente diferentes tipos de dados nos parâmetros:
+        // - Inteiros (i)
+        // - Floats/Doubles (d) 
+        // - Strings (s)
+        // - Outros tipos são tratados como blobs (b)
+        
         $connection = new mysqli('db', $_ENV["MYSQL_USER"], $_ENV["MYSQL_PASSWORD"], 'GestorPredial');
 
         if ($connection->connect_error) {

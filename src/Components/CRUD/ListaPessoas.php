@@ -12,6 +12,9 @@ if (!empty($_POST)) {
 
     switch ($_POST["type"]) {
         case "get":
+            // busca os usuário do banco de dados.
+            // 1. Se não houver filtro, retorna todos os usuários.
+            // 2. Se houver filtro, retorna os usuários que possuem o filtro no nome.
             $filter = $_POST["filter"];
             $dados = [];
             if (empty($filter)) {
@@ -24,6 +27,7 @@ if (!empty($_POST)) {
             echo json_encode($dados);
             break;
         case "post":
+            // adiciona uma nova pessoa no banco de dados.
             $props = prepareQuery($_POST["data"]);
 
             // Constroi a querry para colocar no bd.
@@ -33,7 +37,7 @@ if (!empty($_POST)) {
             $query .= str_repeat("?,", count($_POST["data"]) - 1) . "?";
             $query .= ")";
 
-            // Execute insert and get the new ID
+            // Executa o comando e pega a nova pessoa atualizada. Devolve para o usuário.
             $values = array_values($_POST["data"]);
 
             $lastId = Database::query($query, $values);
@@ -43,7 +47,7 @@ if (!empty($_POST)) {
             echo json_encode($newRecord);
             break;
         case "patch":
-
+            // sobreescreve os dados de uma pessoa
             $props = prepareQuery($_POST["data"]);
             $id = $_POST["data"]["id"];
 
@@ -52,17 +56,18 @@ if (!empty($_POST)) {
             $query .= implode(" = ?, ", array_keys($_POST["data"])) . " = ?";
             $query .= " WHERE id = ?";
 
-            // Execute insert and get the new ID
+            // executa o comando
             $values = array_values($_POST["data"]);
             $values[] = $id;
-
             Database::query($query, $values);
 
+            // busca no banco o usuário com ID entregue pelo formulário e devolve ao frontEnd.
             $newRecord = Database::query("SELECT * FROM pessoas WHERE id = ?", [$id]);
             echo json_encode($newRecord);
 
             break;
         case "delete":
+            // deleta os dados de uma pessoa
             $id = $_POST["id"];
             $query = "DELETE FROM pessoas WHERE id = ?";
             Database::query($query, [$id]);
@@ -78,6 +83,7 @@ if (!empty($_POST)) {
 ?>
 
 <style>
+    /* CSS para ressaltar uma linha quando modificada. */
     tbody#dadosTabelaPessoas>tr>td {
         transition: all ease-in-out 0.3s;
     }
@@ -125,7 +131,7 @@ if (!empty($_POST)) {
         </li>
       </ul>
 
-      <!-- Search Form -->
+      <!-- Formulário busca -->
       <form class="d-flex align-items-center" id="searchPersonForm">
         <input
           class="form-control me-2"

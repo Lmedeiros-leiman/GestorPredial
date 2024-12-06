@@ -1,37 +1,38 @@
 <?php
-
 if (!empty($_POST) and isset($_POST["action"])) {
-    header('Content-Type: application/json; charset=utf-8');
-    require_once "./Components/Scripts/Database.php";
+    header('Content-Type: application/json; charset=utf-8'); // o  browser enteenderá que estamos enviando um JSON.
+    require_once "./Components/Scripts/Database.php"; // chama o banco de dados.
     session_start();
     //
-
+    // as páginas PHP possuem 2 modos: POST e GET
+    // o navegador por padrão envia os dados via GET (o html abaixo destas linhas de código.)
+    // porem formulários podem acessar as ações de cada página, neste caso: logar e deslogar.
+    //
     switch ($_POST["action"]) {
         case "login":
+            // separamos os dados do formulário em um array.
             $formData = [
                 "nome" => $_POST["nome"],
                 "senha" => $_POST["senha"]
             ];
-            $querry = "SELECT * FROM administrador WHERE (nome=? AND senha=?)";
-            $data = Database::query($querry,$formData);
-    
+            $data = Database::query("SELECT * FROM administrador WHERE (nome=? AND senha=?)", $formData);
+            // inicializa com um valor padrão de erro.
             $result = [
                 "status" => "danger",
                 "message" => "Usuário ou senha inválidos."
             ];
 
             if (count($data) > 0) {
-                $data = $data[0];
-                $_SESSION["user"] = $data["id"];
-                
+                // caso tenhamos encontrado uma conta válida no banco de dados, armazenamos seu ID na sessão e indicamos sucesso ao usuário.
+                $_SESSION["user"] = $data[0]["id"];
+
                 $result = [
                     "status" => "success",
                     "message" => "Login efetuado com sucesso",
                     "redirect" => "./dashboard.php"
                 ];
             }
-
-            echo json_encode($result);
+            echo json_encode($result); // entrega o objeto $result para o frontend análisar.
             break;
         case "logout":
             unset($_SESSION["user"]);
@@ -41,7 +42,6 @@ if (!empty($_POST) and isset($_POST["action"])) {
         default:
             break;
     }
-
     exit();
 }
 
@@ -103,7 +103,7 @@ if (!empty($_POST) and isset($_POST["action"])) {
             </form>
         </div>
         <div id="alert" class="alert d-none mt-3" role="alert">
-            
+            Esperando retorno do formulário.
         </div>
     </div>
 </body>
@@ -128,8 +128,8 @@ if (!empty($_POST) and isset($_POST["action"])) {
                     success: function(response) {
                         console.log(response)
                         $("#alert").addClass("alert-" + response.status)
-                        .text(response.message)
-                        .removeClass("d-none");
+                            .text(response.message)
+                            .removeClass("d-none");
 
                         if (response.status == "success") {
                             window.location.href = response.redirect;
